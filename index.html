@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Registro de Usuarios</title>
+	<!-- Agrega el SDK de Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+	<!-- Configura Firebase con tus credenciales -->
+
+	<script>
+// Configura Firebase con tus credenciales
+const firebaseConfig = {
+
+
+
+};
+firebase.initializeApp(firebaseConfig);
+
+	</script>
+
+	<!-- Agrega estilos CSS para el formulario -->
+		<style>
+    /* Estilos generales para la página */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: gray;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgb(202, 195, 195);
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+		}
+
+		label {
+			display: grid;
+			align-items: center;
+      color: #000000;
+			font-weight: 600;
+    }
+
+		
+		input {
+			margin: 5px 0;
+			padding: 5px;
+			width: 300px;
+			border: 1px solid gray;
+			border-radius: 5px;
+			font-size: 16px;
+		}
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #008CBA;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button[type="submit"]:hover {
+      background-color: #006d8c;
+    }
+	</style>
+</head>
+<body>
+	<!-- Crea el formulario -->
+	<form id="registro-form" onsubmit="return enviarRegistro()">
+		<h2>Informacion Personal</h2>
+		<label>Nombres:</label>
+		<input type="text" id="nombres" required>
+		<label>Apellidos:</label>
+		<input type="text" id="apellidos" required>
+		<label>Dirección:</label>
+		<input type="text" id="direccion" required>
+		<label>Rut:</label>
+		<input type="text" id="rut" required>
+		<label>Fecha de Nacimiento:</label>
+		<input type="date" id="fecha-nacimiento" required>
+		<label>Teléfono Trabajo:</label>
+		<input type="tel" id="telefono-trabajo" required>		
+		<label>Teléfono Personal:</label>
+		<input type="tel" id="telefono-personal">		
+		<label>Estado Civil:</label>
+		<input type="tel" id="estado-civil">
+
+		<h2>Informacion Familiar</h2>
+		<label>Nombres Completo:</label>
+		<input type="text" id="nombres" required>
+		<label>Prentesco:</label>
+		<input type="text" id="apellidos" required>
+		<label>Dirección:</label>
+		<input type="text" id="direccion" required>
+		<label>Rut:</label>
+
+		<h2>Informacion Emergencia</h2>
+		<label>Nombre de Contacto 1:</label>
+		<input type="text" id="nombre-contacto-1">
+		<label>Teléfono de Contacto 1:</label>
+		<input type="tel" id="telefono-contacto-1">		
+		<label>Parentesco:</label>
+		<input type="tel" id="parentesco-contacto-1">
+		<label>Nombre de Contacto 2:</label>
+		<input type="text" id="nombre-contacto-2">
+		<label>Teléfono de Contacto 2:</label>
+		<input type="tel" id="telefono-contacto-2">
+		<label>Parentesco:</label>
+		<input type="tel" id="parentesco-contacto-2">
+
+		<h2>Informacion Vestuario</h2>
+		<label>Pantalones:</label>
+		<input type="text" id="nombres" required>
+		<label>Polera:</label>
+		<input type="text" id="apellidos" required>
+		<label>zapatos:</label>
+		<input type="text" id="direccion" required>
+		<label>Cortaviento:</label>
+		<input type="text" id="direccion" required>		
+		<label>Casaca:</label>
+		<input type="text" id="direccion" required>		
+		<label>Chaleco antibalas:</label>
+		<input type="text" id="direccion" required>
+
+		<h2>Informacion Salud</h2>
+		<label>Alergico a:</label>
+		<input type="text" id="nombres" required>
+		<label>Tipo de sangre:</label>
+		<input type="text" id="apellidos" required>
+
+		<h2>Informacion Cargos:</h2>
+		<label>Esposas:</label>
+		<input type="text" id="nombres" required>
+		<label>Baston:</label>
+		<input type="text" id="apellidos" required>		
+		<label>Gas pimienta:</label>
+		<input type="text" id="nombres" required>
+		<label>Cinturon:</label>
+		<input type="text" id="apellidos" required>
+
+		<button type="submit">Registrar</button>
+
+	</form>
+
+	<!-- Agrega el script de JavaScript para manejar el envío del formulario -->
+	<script>
+		function enviarRegistro() {
+			// Obtiene los valores del formulario
+			var nombreCompleto = document.getElementById("nombre-completo").value;
+			var direccion = document.getElementById("direccion").value;
+			var rut = document.getElementById("rut").value;
+			var fechaNacimiento = document.getElementById("fecha-nacimiento").value;
+			var telefono = document.getElementById("telefono").value;
+			var nombreContacto = document.getElementById("nombre-contacto").value;
+			var telefonoContacto = document.getElementById("telefono-contacto").value;
+      var nombreContacto2 = document.getElementById("nombre-contacto-2").value;
+      var telefonoContacto2 = document.getElementById("telefono-contacto-2").value;
+		// Crea un objeto con los datos del usuario
+		var usuario = {
+			nombre: nombreCompleto,
+			direccion: direccion,
+			rut: rut,
+			fechaNacimiento: fechaNacimiento,
+			telefono: telefono,
+			nombreContacto1: nombreContacto,
+			telefonoContacto1: telefonoContacto,
+			nombreContacto2: nombreContacto2,
+			telefonoContacto2: telefonoContacto2
+		};
+
+		// Guarda los datos del usuario en Firestore de Firebase
+		firebase.firestore().collection("usuarios").add(usuario)
+			.then(function(docRef) {
+				console.log("Usuario registrado con ID: ", docRef.id);
+				alert("Usuario registrado correctamente.");
+				// Resetea el formulario después de enviar
+				document.getElementById("registro-form").reset();
+			})
+			.catch(function(error) {
+				console.error("Error al registrar usuario: ", error);
+				alert("Ha ocurrido un error al registrar al usuario.");
+			});
+
+		// Evita que se recargue la página al enviar el formulario
+		return false;
+	}
+</script>
+</body>
+</html>
